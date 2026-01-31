@@ -8,18 +8,27 @@ Assets::Assets() {
 
     // --- 1. TEXTURES ---
     // Associe l'Enum (GameId) -> au Fichier sur le disque
+
+    // Game Entity
     loadTexture(GameID::Texture::PlayerCar,      "assets/Homme_pauvre_final.png");
+    loadTexture(GameID::Texture::TrafficCivilian,      "assets/taxi.png");
     loadTexture(GameID::Texture::Background,     "assets/Ville.png");
     
-    // Si tu as d'autres textures dans l'enum GameId.hpp, ajoute-les ici :
-    // loadTexture(GameID::Texture::TitleScreen, "assets/title.png");
-    // loadTexture(GameID::Texture::Road,        "assets/road.png");
+    // Mask
+    loadTexture(GameID::Texture::Mask_Alcool,      "assets/masque_alcool.png");
+    loadTexture(GameID::Texture::Mask_Stinky,      "assets/masque_a_gaz.png");
+    loadTexture(GameID::Texture::Mask_Headset,      "assets/casque_antibruit.png");
+    //loadTexture(GameID::Texture::Mask_Coke,      "assets/.png");
+    loadTexture(GameID::Texture::Mask_Fat,      "assets/Brocoli.png");
 
     // --- 2. FONTS ---
     loadFont(GameID::Font::Main, "assets/CyberwayRiders-lg97d.ttf");
+    loadFont(GameID::Font::Cyber, "assets/CyberwayRiders-lg97d.ttf");
 
     // --- 3. SONS ---
-    loadSound(GameID::Sound::UI_Click, "assets/tictac.mp3");
+    //loadSound(GameID::Sound::UI_Click, "assets/tictac.mp3");
+    loadSound(GameID::Sound::Minuteur, "assets/tictac.mp3");
+    loadSound(GameID::Sound::Test, "assets/ggjtest.wav");
     
     std::cout << "[Assets] Chargement termine !" << std::endl;
 }

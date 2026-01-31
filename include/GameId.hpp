@@ -30,38 +30,41 @@ enum class Malus {
 // --- ASSETS ---
 enum class Texture {
   // UI
-  TitleScreen,
+  /*TitleScreen,
   ButtonNormal,
   ButtonSelected,
-  Dashboard,
+  Dashboard,*/
 
   // Game Entities
   PlayerCar,
   TrafficCivilian,
-  TrafficPolice,
-  Road,
+  //TrafficPolice,
+  //Road,
   Background,
 
   // Mask Icons (Aligned with GameID::Malus for easy loading)
   Mask_Alcool,
-  Mask_Stinky,
+  Mask_Stinky, //puer
   Mask_Headset,
-  Mask_Coke,
+  //Mask_Coke,
   Mask_Fat
 };
 
 enum class Font {
   Main,
-  Digital // dashboard clock/speedometer
+  Digital,
+  Cyber
 };
 
 enum class Sound {
-  PhoneRing,
-  PhoneVoice_Drunk,
-  PhoneVoice_Angry,
-  CarEngine,
-  CarCrash,
-  UI_Click
+  //PhoneRing,
+  //PhoneVoice_Drunk,
+  //PhoneVoice_Angry,
+  //CarEngine,
+  //CarCrash,
+  //UI_Click
+  Minuteur, // de 10 seconde
+  Test,
 };
 
 } // namespace GameID
