@@ -5,6 +5,7 @@
 #include "FrameEffect.hpp"
 #include "GrayscaleEffect.hpp"
 #include "WaveDistortionEffect.hpp"
+#include "ScreenShakeEffect.hpp"
 
 int main() {
     sf::RenderWindow window({800, 600}, "Frame Effects Example");
@@ -26,11 +27,14 @@ int main() {
     EffectChain chain;
     auto gptr = std::make_unique<GrayscaleEffect>(20.0f, "grayscale");
     auto wptr = std::make_unique<WaveDistortionEffect>(8.f, 0.06f, 2.f, "wave");
+    auto sptr = std::make_unique<ScreenShakeEffect>(12.f, 8.f, 2.f, "shake");
     // start disabled/enabled according to desired defaults
     gptr->setEnabled(false);
     wptr->setEnabled(true);
+    sptr->setEnabled(false);
     chain.addEffect(std::move(gptr));
     chain.addEffect(std::move(wptr));
+    chain.addEffect(std::move(sptr));
 
     sf::Clock clock;
 
@@ -46,6 +50,10 @@ int main() {
                 if (ev.key.code == sf::Keyboard::W) {
                     std::cout << "Wave On/Off" << std::endl;
                     chain.toggle("wave");
+                }
+                if (ev.key.code == sf::Keyboard::S) {
+                    std::cout << "Shake On/Off" << std::endl;
+                    chain.toggle("shake");
                 }
                 if (ev.key.code == sf::Keyboard::I) {
                     // Increase grayscale intensity
