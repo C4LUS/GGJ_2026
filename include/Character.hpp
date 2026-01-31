@@ -16,7 +16,7 @@ struct AnimData {
 class Character : public sf::Drawable, public sf::Transformable {
 public:
     // Constructeur prend maintenant GameID::Texture
-    Character(Assets& assets, GameID::Texture texID, 
+    Character(Assets& assets, GameID::Texture texID,
               int frameW, int frameH, int startX, int startY, int frames);
 
     void addAnimation(std::string name, int x, int y, int w, int h, int frames, float speed);
@@ -30,7 +30,7 @@ private:
     sf::Sprite m_sprite;
     std::string m_currentAnim;
     std::map<std::string, AnimData> m_animations;
-    
+
     float m_timer;
     int m_currentFrame;
     int m_animDirection;
