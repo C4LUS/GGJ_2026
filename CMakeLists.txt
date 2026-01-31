@@ -15,8 +15,6 @@ add_executable(game
   src/main.cpp
   src/State.cpp
   src/InputManager.cpp
-  src/InsideCarState.cpp
-  src/MenuState.cpp
 )
 
 target_include_directories(game PRIVATE include)

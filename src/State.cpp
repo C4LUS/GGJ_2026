@@ -1,8 +1,7 @@
 #include "../include/State.hpp"
 #include "../include/StateStack.hpp"
 
-State::State(StateStack &stack, Context context)
-    : mStack(&stack), mContext(context) {}
+State::State(StateStack &stack, Context context) : mStack(&stack), mContext(context) {}
 
 void State::requestStackPush(GameID::State stateID) {
   mStack->pushState(stateID);
