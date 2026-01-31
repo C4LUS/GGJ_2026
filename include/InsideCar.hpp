@@ -6,7 +6,8 @@
 // The Phone Logic
 class PhoneSystem : public sf::Drawable {
 public:
-  PhoneSystem(const TextureHolder &textures);
+  // CHANGED: Now takes the full Context to access Assets
+  PhoneSystem(Context context);
 
   void update(sf::Time dt);
 
@@ -20,7 +21,7 @@ public:
   void reset();
 
 private:
-  void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+  void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
   enum State { Idle, Ringing, Talking, Finished };
   State mState;

@@ -1,10 +1,11 @@
 #pragma once
 
 namespace GameID {
-// State Identifiers
+
+// --- STATE SYSTEM ---
 enum class State { None, Menu, InsideCar, Driving, Pause, GameOver };
 
-// Action Identifiers (Inputs)
+// --- INPUTS ---
 enum class Action {
   SteerLeft,
   SteerRight,
@@ -15,37 +16,43 @@ enum class Action {
   Pause
 };
 
-// Asset Identifiers
+// --- GAMEPLAY MODIFIERS (Merged) ---
+// Represents both the Malus Effect and the Mask required to stop it.
+enum class Malus {
+  None,
+  Alcool,  // Drunk Effect / Anti-Alcohol Mask
+  Stinky,  // Smelly Passenger / Gas Mask
+  Headset, // Muffled Sound / Headphones?
+  Coke,    // Jitter Speed / Chill Glasses?
+  Fat      // Heavy Physics / ?
+};
+
+// --- ASSETS ---
 enum class Texture {
   // UI
   TitleScreen,
   ButtonNormal,
   ButtonSelected,
   Dashboard,
-  // Game
+
+  // Game Entities
   PlayerCar,
   TrafficCivilian,
   TrafficPolice,
   Road,
   Background,
-  // Masks
-  MaskGas,
-  MaskSunglasses,
-  MaskAntiDrunk
+
+  // Mask Icons (Aligned with GameID::Malus for easy loading)
+  Mask_Alcool,
+  Mask_Stinky,
+  Mask_Headset,
+  Mask_Coke,
+  Mask_Fat
 };
 
 enum class Font {
   Main,
   Digital // dashboard clock/speedometer
-};
-
-enum class Malus {
-  Alcool,
-  Stinky,
-  Headset,
-  Coke,
-  Fat,
-  None,
 };
 
 enum class Sound {
@@ -56,4 +63,5 @@ enum class Sound {
   CarCrash,
   UI_Click
 };
+
 } // namespace GameID

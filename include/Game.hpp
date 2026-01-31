@@ -1,4 +1,5 @@
 #pragma once
+#include "Assets.hpp" // <--- Include this
 #include "SharedContext.hpp"
 #include "StateStack.hpp"
 #include <SFML/Graphics.hpp>
@@ -17,11 +18,8 @@ private:
 
 private:
   sf::RenderWindow mWindow;
-  TextureHolder mTextures;
-  FontHolder mFonts;
-  InputManager mInputManager; // manage the inputs
-  SessionData mSession;       // The session infos (score, masks etc)
-
-  StateStack mStateStack; // accumulation of state, push running, push menu
-                          // mode, pop menu to return to game
+  Assets mAssets; // <--- CHANGED: Owns the centralized assets
+  InputManager mInputManager;
+  SessionData mSession;
+  StateStack mStateStack;
 };

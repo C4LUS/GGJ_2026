@@ -1,14 +1,16 @@
 #include "../include/Game.hpp"
+#include "../include/DrivingState.hpp"
 #include "../include/InsideCarState.hpp"
 #include "../include/MenuState.hpp"
 
 const sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game()
-    : mWindow(sf::VideoMode(1280, 720), "Masked Delivery (Stack Test)",
-              sf::Style::Close),
-      mTextures(), mFonts(), mInputManager(), mSession(),
-      mStateStack({&mWindow, &mTextures, &mFonts, &mInputManager, &mSession}) {
+    : mWindow(sf::VideoMode(1280, 720), "Masked Delivery", sf::Style::Close),
+      mAssets(), // <--- NEW: Initialize the centralized Assets
+      mInputManager(), mSession(),
+      // <--- NEW: Context now takes 4 arguments: Window, Assets, Input, Session
+      mStateStack({&mWindow, &mAssets, &mInputManager, &mSession}) {
   mWindow.setKeyRepeatEnabled(false);
   registerStates();
 
@@ -57,4 +59,6 @@ void Game::render() {
 void Game::registerStates() {
   mStateStack.registerState<MenuState>(GameID::State::Menu);
   mStateStack.registerState<InsideCarState>(GameID::State::InsideCar);
+  mStateStack.registerState<DrivingState>(
+      GameID::State::Driving); // <--- UNCOMMENT THIS
 }

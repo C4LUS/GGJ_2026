@@ -1,7 +1,8 @@
 #pragma once
+#include "Assets.hpp"
+#include "GameId.hpp" // <--- Include Enums from here
 #include "InputManager.hpp"
 #include <SFML/Graphics.hpp>
-#include <memory>
 #include <vector>
 
 // Current run data
@@ -9,33 +10,23 @@ struct SessionData {
   int currentDay = 1;
   float cash = 0.0f;
 
-  // Accumulation of maluses
+  // The Maluses currently active on the player (e.g., {Malus::Alcool,
+  // Malus::Fat})
   std::vector<GameID::Malus> activeMaluses;
 
-  // Current equiped mask
-  GameID::Malus currentMalus = GameID::Malus::None;
+  // The Mask currently equipped (This is of type Malus because it protects
+  // against that specific Malus) Logic: If activeMaluses contains
+  // Malus::Alcool, but currentMask == Malus::Alcool, the effect is blocked.
+  GameID::Malus currentMask = GameID::Malus::None;
 
-  // Required mask to be protected
-  GameID::Malus requiredMalusForNextRun = GameID::Malus::None;
+  // The Threat detected in the Office Phase (used to check success/fail later)
+  GameID::Malus requiredMaskForNextRun = GameID::Malus::None;
 };
 
-// Template to manage ressources: sound, texture, font etc
-template <typename Resource, typename Identifier> class ResourceHolder {
-  // to add: map<Identifier, unique_ptr<Resource>>
-public:
-  void load(Identifier id, const std::string &filename);
-  Resource &get(Identifier id);
-  const Resource &get(Identifier id) const;
-};
-
-typedef ResourceHolder<sf::Texture, GameID::Texture> TextureHolder;
-typedef ResourceHolder<sf::Font, GameID::Font> FontHolder;
-
-// tool box to allow all sections to work with the game
+// Tool box passed to every state
 struct Context {
   sf::RenderWindow *window;
-  TextureHolder *textures;
-  FontHolder *fonts;
+  Assets *assets;
   InputManager *input;
   SessionData *session;
 };
