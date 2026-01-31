@@ -6,6 +6,7 @@
 #include "GrayscaleEffect.hpp"
 #include "WaveDistortionEffect.hpp"
 #include "ScreenShakeEffect.hpp"
+#include "BlurEffect.hpp"
 
 int main() {
         // Load voiture.png as background
@@ -41,13 +42,17 @@ int main() {
     auto gptr = std::make_unique<GrayscaleEffect>(20.0f, "grayscale");
     auto wptr = std::make_unique<WaveDistortionEffect>(8.f, 0.06f, 2.f, "wave");
     auto sptr = std::make_unique<ScreenShakeEffect>(24.f, 8.f, 2.f, "shake");
+    auto bptr = std::make_unique<BlurEffect>(4.0f, "blur");
     // start disabled/enabled according to desired defaults
     gptr->setEnabled(false);
     wptr->setEnabled(true);
     sptr->setEnabled(false);
+    bptr->setEnabled(false);
     chain.addEffect(std::move(gptr));
     chain.addEffect(std::move(wptr));
     chain.addEffect(std::move(sptr));
+    chain.addEffect(std::move(bptr));
+
 
     sf::Clock clock;
 
@@ -56,6 +61,10 @@ int main() {
         while (window.pollEvent(ev)) {
             if (ev.type == sf::Event::Closed) window.close();
             if (ev.type == sf::Event::KeyPressed) {
+                if (ev.key.code == sf::Keyboard::B) {
+                    std::cout << "Blur On/Off" << std::endl;
+                    chain.toggle("blur");
+                }
                 if (ev.key.code == sf::Keyboard::G) {
                     std::cout << "Grayscale On/Off" << std::endl;
                     chain.toggle("grayscale");
