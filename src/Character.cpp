@@ -19,7 +19,7 @@ void Character::addAnimation(std::string name, int x, int y, int w, int h, int f
 
 void Character::setAnimation(std::string name) {
     if (m_animations.find(name) == m_animations.end() || m_currentAnim == name) return;
-    
+
     m_currentAnim = name;
     m_currentFrame = 0;
     m_timer = 0;
