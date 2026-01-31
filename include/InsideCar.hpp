@@ -2,7 +2,9 @@
 #include "SharedContext.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
+#include <memory>
+#include "Character.hpp"
+#include <cmath>
 // The Phone Logic
 class PhoneSystem : public sf::Drawable {
 public:
@@ -27,7 +29,7 @@ private:
   State mState;
   GameID::Malus mRequiredMask;
   sf::Time time;
-  sf::Sprite mSprite;
+  std::unique_ptr<Character> mPhoneCharacter;
   sf::Text mSubtitleText;
 };
 
@@ -42,9 +44,10 @@ public:
 
 private:
   struct Button {
-    sf::Sprite sprite;
+    std::unique_ptr<Character> icon;
     GameID::Malus maskID;
     bool isSelected;
+    float baseScale;
   };
   std::vector<Button> mButtons;
 };

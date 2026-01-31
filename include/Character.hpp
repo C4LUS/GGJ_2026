@@ -21,6 +21,7 @@ public:
 
     void addAnimation(std::string name, int x, int y, int w, int h, int frames, float speed);
     void setAnimation(std::string name);
+    sf::FloatRect getGlobalBounds() const;
     void update(float dt);
 
 private:

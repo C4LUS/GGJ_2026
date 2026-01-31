@@ -3,6 +3,15 @@
 InputManager::InputManager() {
   // --- Default Bindings ---
 
+  // Dans le constructeur InputManager::InputManager()
+
+  // Remplacer ou ajouter  UP AND DOWN:
+  bindKey(sf::Keyboard::Up,    GameID::Action::MoveUp);
+  bindKey(sf::Keyboard::Z,     GameID::Action::MoveUp);
+  bindKey(sf::Keyboard::W,     GameID::Action::MoveUp);
+
+  bindKey(sf::Keyboard::Down,  GameID::Action::MoveDown);
+  bindKey(sf::Keyboard::S,     GameID::Action::MoveDown);
   // Driving Controls (Arrows + WASD/ZQSD for Azerty compatibility)
   bindKey(sf::Keyboard::Left, GameID::Action::SteerLeft);
   bindKey(sf::Keyboard::Q, GameID::Action::SteerLeft);

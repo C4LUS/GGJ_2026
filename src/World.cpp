@@ -1,66 +1,58 @@
 #include "../include/World.hpp"
-#include "../include/PlayerCar.hpp" // <--- The compiler sees the full class here
 #include <iostream>
 
-// <--- NEW: Define the destructor here
+// Destructeur obligatoire car on utilise des unique_ptr dans le .hpp
 World::~World() = default;
 
 World::World(Context context)
-    : mContext(context), mWindow(*context.window),
-      mWorldView(context.window->getDefaultView()),
-      mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 20000.f) // Long road
-      ,
-      mSpawnPosition(mWorldView.getSize().x / 2.f,
-                     mWorldView.getSize().y - 200.f),
-      mScrollSpeed(0.f), mPlayerCar(nullptr) {
-  // 1. Setup Road (From Jonas's logic: centered rectangle)
-  sf::Vector2f roadSize(400.f, mWorldView.getSize().y);
-  sf::Vector2f roadPos(mWorldView.getSize().x / 2.f,
-                       mWorldView.getSize().y / 2.f);
+    : mContext(context)
+    , mWindow(*context.window)
+{
+    // 1. Création du personnage (Le PlayerCar = Homme_pauvre_final.png)
+    // On utilise ton constructeur : assets, enum, frameW, frameH, startX, startY, frames
+    mPlayer = std::make_unique<Character>(
+        *mContext.assets, 
+        GameID::Texture::PlayerCar, 
+        90, 200, // Taille d'une frame (à ajuster selon ton PNG)
+        0, 0,    // On commence en haut à gauche
+        4        // 1 seule frame pour commencer
+    );
 
-  mRoadRect.setSize(roadSize);
-  mRoadRect.setOrigin(roadSize / 2.f);
-  mRoadRect.setPosition(roadPos);
-  mRoadRect.setFillColor(sf::Color(50, 50, 50)); // Dark Grey Road
-  mRoadRect.setOutlineThickness(5.f);
-  mRoadRect.setOutlineColor(sf::Color::White);
-
-  // Define borders for collision (Left X, Right X)
-  // Area = Center - HalfWidth to Center + HalfWidth
-  mRoadBorders =
-      std::make_tuple(roadPos - (roadSize / 2.f), roadPos + (roadSize / 2.f));
-
-  // 2. Setup Player
-  mPlayerCar.reset(new PlayerCar(*context.assets));
-  mPlayerCar->setPosition(mSpawnPosition);
+    // 2. Positionnement simple au centre de l'écran
+    mPlayer->setPosition(mWindow.getSize().x / 2.f, mWindow.getSize().y / 2.f);
+    
+    std::cout << "[World] Character cree et positionne." << std::endl;
 }
 
 void World::update(sf::Time dt) {
-  // 1. Handle Input (Steering)
-  mPlayerCar->handleRealtimeInput(*mContext.input);
+    float dtSec = dt.asSeconds();
+    float speed = 400.f; 
+    sf::Vector2f movement(0.f, 0.f);
 
-  // 2. Update Physics (pass road borders to limit movement)
-  mPlayerCar->update(dt, mRoadBorders);
+    // --- HORIZONTAL ---
+    if (mContext.input->isActionActive(GameID::Action::SteerLeft)) {
+        movement.x -= speed;
+    }
+    if (mContext.input->isActionActive(GameID::Action::SteerRight)) {
+        movement.x += speed;
+    }
 
-  // 3. Scroll Logic (Fake movement)
-  // In a vertical scroller, we often just move obstacles down
-  // But for now, we just update the car.
+    // --- VERTICAL ---
+    if (mContext.input->isActionActive(GameID::Action::MoveUp)) {
+        movement.y -= speed;
+    }
+    if (mContext.input->isActionActive(GameID::Action::MoveDown)) {
+        movement.y += speed;
+    }
+
+    // On applique le mouvement final
+    mPlayer->move(movement * dtSec);
+
+    // On n'oublie pas de mettre à jour l'animation (le timer de Character)
+    mPlayer->update(dtSec);
 }
-
 void World::draw() {
-  mWindow.setView(mWorldView);
-  mWindow.draw(mRoadRect);
-  mWindow.draw(*mPlayerCar);
-}
-
-bool World::hasCrashed() const {
-  return false; // TODO: Implement obstacle collision
-}
-
-bool World::hasReachedDestination() const {
-  return false; // TODO: Timer or Distance
-}
-
-void World::handleCollisions() {
-  // Placeholder
+    // On dessine le personnage
+    // Rappel : mPlayer est un unique_ptr, donc on le déréférence avec *
+    mWindow.draw(*mPlayer);
 }

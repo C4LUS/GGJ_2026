@@ -9,6 +9,8 @@ enum class State { None, Menu, InsideCar, Driving, Pause, GameOver };
 enum class Action {
   SteerLeft,
   SteerRight,
+  MoveUp,
+  MoveDown,
   Accelerate,
   Brake,
   Confirm, // UI Click/Enter

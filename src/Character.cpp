@@ -13,6 +13,11 @@ Character::Character(Assets& assets, GameID::Texture texID,
     setAnimation("default");
 }
 
+sf::FloatRect Character::getGlobalBounds() const {
+    // On transforme les limites locales du sprite en limites globales (écran)
+    return getTransform().transformRect(m_sprite.getGlobalBounds());
+}
+
 void Character::addAnimation(std::string name, int x, int y, int w, int h, int frames, float speed) {
     m_animations[name] = {x, y, w, h, frames, speed};
 }
