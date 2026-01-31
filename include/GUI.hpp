@@ -31,7 +31,7 @@ private:
   virtual void draw(sf::RenderTarget &target,
                     sf::RenderStates states) const override;
   void changeTexture(
-      GameID::Texture::Type type); // Helper to swap normal/pressed textures
+      GameID::Texture type); // Helper to swap normal/pressed textures
 
 private:
   Callback mCallback;
