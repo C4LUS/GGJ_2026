@@ -74,6 +74,11 @@ class AObstacle : public IObstacle
                 this->_alive = false;
                 return true;
             }
+            if (this->_pos.y > 1080) {
+                this->_displayable = false;
+                this->_alive = false;
+                return true;
+            }
             return false;
         }
 

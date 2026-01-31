@@ -23,7 +23,7 @@ class ObstacleSpawner
 
             if (this->_obstacle_vector[0]->getDisplay() == false) {
                 this->_obstacle_vector[0]->setDisplay(true);
-                this->_obstacle_vector[0]->randomizePos();
+                this->_obstacle_vector[0]->randomizePosRoad();
             }
             
             if (this->_obstacle_vector[0]->is_alive()) {
