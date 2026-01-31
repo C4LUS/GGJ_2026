@@ -6,7 +6,6 @@
 #include <SFML/Graphics.hpp>
 #include "Road.hpp"
 
-//class Road;
 class Car
 {
     public:

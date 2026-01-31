@@ -8,9 +8,7 @@ class ObstacleGoat : public AObstacle
     public:
         ObstacleGoat(sf::Vector2f pos, sf::Vector2f size)
         {
-            //sf::Vector2f hitbox_pos1 = sf::Vector2f(pos.x - (size.x / 2.f), pos.y - (size.y / 2.f));
-            //sf::Vector2f hitbox_pos2 = sf::Vector2f(pos.x + (size.x / 2.f), pos.y + (size.y / 2.f));
-
+            this->_alive = true;
             this->_pos = pos;
             this->_size = size;
             this->_type = WOOD;

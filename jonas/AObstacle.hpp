@@ -59,19 +59,35 @@ class AObstacle : public IObstacle
             this->_hitbox_shape.setPosition(this->_pos - (_size / 2.0f));
         }
 
-        bool is_collide(Car& car)
+        bool is_alive() const override
+        {
+            return this->_alive;
+        }
+
+        bool is_collide(Car& car) override
         {
             sf::FloatRect r1 = car.getHitboxShape().getGlobalBounds();
             sf::FloatRect r2 = this->_hitbox_shape.getGlobalBounds();
 
             if (r1.intersects(r2)) {
                 this->_displayable = false;
+                this->_alive = false;
                 return true;
             }
             return false;
         }
 
+        void randomizePosRoad() override
+        {
+            sf::Vector2f road_pos = ROAD_POS;
+            sf::Vector2f road_size = ROAD_SIZE;
+            int pos_in_road = rand() % static_cast<int>(road_size.x);
+
+            this->_pos.x = ((road_pos.x - (road_size.x / 2)) + pos_in_road);
+        }
+
     protected:
+        bool _alive;
         bool _displayable;
         size_t _attack;
         std::tuple<sf::Vector2f, sf::Vector2f> _hitbox;
