@@ -19,7 +19,7 @@ class Car
             this->_size = size;
             this->_hitbox = std::make_tuple(pos - (size / 2.f), pos + (size / 2.f));
 
-            //this->_shape.setOrigin(this->_size / 2.f);
+            this->_shape.setOrigin(this->_size / 2.f);
             this->_shape.setSize(this->_size);
             this->_shape.setFillColor(sf::Color::Red);
             this->_shape.setPosition(this->_pos);
@@ -75,6 +75,11 @@ class Car
         sf::RectangleShape getShape() const
         {
             return this->_shape;
+        }
+
+        sf::RectangleShape getHitboxShape() const
+        {
+            return this->_hitbox_shape;
         }
 
     private:

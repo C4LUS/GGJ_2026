@@ -3,10 +3,10 @@
 
 #include "AObstacle.hpp"
 
-class ObstacleWood : public AObstacle
+class ObstacleGuy : public AObstacle
 {
     public:
-        ObstacleWood(sf::Vector2f pos, sf::Vector2f size)
+        ObstacleGuy(sf::Vector2f pos, sf::Vector2f size)
         {
             //sf::Vector2f hitbox_pos1 = sf::Vector2f(pos.x - (size.x / 2.f), pos.y - (size.y / 2.f));
             //sf::Vector2f hitbox_pos2 = sf::Vector2f(pos.x + (size.x / 2.f), pos.y + (size.y / 2.f));

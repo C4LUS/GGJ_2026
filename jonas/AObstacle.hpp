@@ -49,7 +49,6 @@ class AObstacle : public IObstacle
 
         void moveObstacle(size_t speed) override
         {
-            
             if (this->_displayable == false ) {
                 return;
             }
@@ -62,29 +61,13 @@ class AObstacle : public IObstacle
 
         bool is_collide(Car& car)
         {
-            std::tuple<sf::Vector2f, sf::Vector2f> object_hitbox = car.getHitbox();
+            sf::FloatRect r1 = car.getHitboxShape().getGlobalBounds();
+            sf::FloatRect r2 = this->_hitbox_shape.getGlobalBounds();
 
-            float ax1 = std::get<0>(this->_hitbox).x;
-            float ax2 = std::get<1>(this->_hitbox).x;
-            float ay1 = std::get<0>(this->_hitbox).y;
-            float ay2 = std::get<1>(this->_hitbox).y;
-
-            float bx1 = std::get<0>(object_hitbox).x;
-            float bx2 = std::get<1>(object_hitbox).x;
-            float by1 = std::get<0>(object_hitbox).y;
-            float by2 = std::get<1>(object_hitbox).y;
-
-            if ((bx1 > ax1 && bx1 < ax2) && (by1 > ay1 && by1 < ay2)) {
+            if (r1.intersects(r2)) {
                 this->_displayable = false;
                 return true;
             }
-            if ((bx2 > ax1 && bx2 < ax2) && (by2 > ay1 && by2 < ay2)) {
-                this->_displayable = false;
-                return true;
-            }
-            std::cout << "car x1: " << bx1 << "car y1: " << by1 << ", car x2: " << bx2 << "car y2: " << by2 << std::endl;
-            std::cout << "obj x1: " << ax1 << "obj y1: " << ay1 << ", obj x2: " << ax2 << "obj y2: " << ay2 << std::endl;
-            std::cout << "\n";
             return false;
         }
 
