@@ -6,14 +6,18 @@
 
 #define ROAD_POS sf::Vector2f(960.0f, 540.0f)
 #define ROAD_SIZE sf::Vector2f(1000.0f, 1080.0f)
-#define WOOD_POS sf::Vector2f(1000.0f, 0.0f)
-#define WOOD_SIZE sf::Vector2f(100.0f, 20.0f)
+
+#define WOOD_POS sf::Vector2f(960.0f, 50.0f)
+#define WOOD_SIZE sf::Vector2f(100.0f, 30.0f)
+
+#define CAR_POS sf::Vector2f(960.0f, 1000.0f)
+#define CAR_SIZE sf::Vector2f(50.0f, 50.0f)
 
 int main()
 {
     sf::RectangleShape mid;
     Road road = Road(ROAD_SIZE, ROAD_POS);
-    Car car = Car();
+    Car car = Car(CAR_POS, CAR_SIZE);
     ObstacleWood wood = ObstacleWood(WOOD_POS, WOOD_SIZE);
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "");
     window.setFramerateLimit(60);
@@ -32,6 +36,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+        wood.is_collide(car);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A)) {
             car.goLeft(road);
         }
@@ -45,6 +50,7 @@ int main()
         car.display(window);
         window.draw(mid);
         window.display();
+        wood.moveObstacle(5);
     }
     return 0;
 }

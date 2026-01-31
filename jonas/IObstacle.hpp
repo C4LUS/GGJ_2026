@@ -22,4 +22,5 @@ class IObstacle
         virtual bool getDisplay() const = 0;
         virtual void setDisplay(bool displayable) = 0;
         virtual void Display(sf::RenderWindow& window) const = 0;
+        virtual void moveObstacle(size_t speed) = 0;
 };
