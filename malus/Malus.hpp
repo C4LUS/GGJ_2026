@@ -6,10 +6,12 @@
 class Malus {
 public:
     enum Type {
-        Alcohol,
-        Noise,
-        Smell,
+        Blur,
+        Grayscale,
+        Wave,
         Shake,
+        Reverse,
+        Split,
         Count
     };
 

@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <map>
+#include "../Malus.hpp"
 
 
 // Abstract base class for frame/post-processing effects.
@@ -28,65 +30,53 @@ class FrameEffect {
 };
 
 // A container that applies a sequence of effects one after another.
+
 class EffectChain {
-    public:
-        using Ptr = std::unique_ptr<FrameEffect>;
+public:
+    using Ptr = std::unique_ptr<FrameEffect>;
 
-        void addEffect(Ptr effect) { effects.push_back(std::move(effect)); }
+    void addEffect(Malus::Type type, Ptr effect) {
+        effects[type] = std::move(effect);
+    }
 
-        // Enable/disable by index
-        void setEnabled(size_t idx, bool e) {
-            if (idx < effects.size()) effects[idx]->setEnabled(e);
-        }
-        bool isEnabled(size_t idx) const {
-            return idx < effects.size() ? effects[idx]->isEnabled() : false;
-        }
-
-        // Enable/disable by name (first match)
-        bool setEnabled(const std::string& name, bool e) {
-            for (auto& ex : effects) {
-                if (ex->getName() == name) { ex->setEnabled(e); return true; }
-            }
-            return false;
-        }
-        bool isEnabled(const std::string& name) const {
-            for (auto& ex : effects) if (ex->getName() == name) return ex->isEnabled();
-            return false;
-        }
-
-        // Toggle by name
-        bool toggle(const std::string& name) {
-            for (auto& ex : effects) if (ex->getName() == name) { ex->setEnabled(!ex->isEnabled()); return true; }
-            return false;
-        }
-
-        // Access effect pointer by name (non-owning). Returns nullptr if not found.
-        FrameEffect* getEffect(const std::string& name) {
-            for (auto& ex : effects) if (ex->getName() == name) return ex.get();
-            return nullptr;
-        }
-        const FrameEffect* getEffect(const std::string& name) const {
-            for (auto& ex : effects) if (ex->getName() == name) return ex.get();
-            return nullptr;
-        }
-
-        // Apply all enabled effects in order. `src` is the input image, result written to `out`.
-        void apply(const sf::Image& src, sf::Image& out, float time = 0.f) {
-            if (effects.empty()) { out = src; return; }
-
-            // Temporary buffers for ping-ponging.
-            sf::Image a = src;
-            sf::Image b;
-            for (auto& e : effects) {
-                if (!e->isEnabled()) continue;
-                e->apply(a, b, time);
+    void setEnabled(Malus::Type type, bool e) {
+        auto it = effects.find(type);
+        if (it != effects.end()) it->second->setEnabled(e);
+    }
+    bool isEnabled(Malus::Type type) const {
+        auto it = effects.find(type);
+        return it != effects.end() ? it->second->isEnabled() : false;
+    }
+    void toggle(Malus::Type type) {
+        auto it = effects.find(type);
+        if (it != effects.end()) it->second->setEnabled(!it->second->isEnabled());
+    }
+    FrameEffect* getEffect(Malus::Type type) {
+        auto it = effects.find(type);
+        return it != effects.end() ? it->second.get() : nullptr;
+    }
+    const FrameEffect* getEffect(Malus::Type type) const {
+        auto it = effects.find(type);
+        return it != effects.end() ? it->second.get() : nullptr;
+    }
+    void setAllDisabled() {
+        for (auto& pair : effects) pair.second->setEnabled(false);
+    }
+    void apply(const sf::Image& src, sf::Image& out, float time = 0.f) {
+        if (effects.empty()) { out = src; return; }
+        sf::Image a = src;
+        sf::Image b;
+        for (int i = 0; i < Malus::Count; ++i) {
+            auto it = effects.find(static_cast<Malus::Type>(i));
+            if (it != effects.end() && it->second->isEnabled()) {
+                it->second->apply(a, b, time);
                 a = std::move(b);
             }
-            out = std::move(a);
         }
-
-    private:
-        std::vector<Ptr> effects;
+        out = std::move(a);
+    }
+private:
+    std::map<Malus::Type, Ptr> effects;
 };
 
 #endif // FRAME_EFFECT_HPP

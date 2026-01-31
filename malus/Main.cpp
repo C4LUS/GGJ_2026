@@ -8,6 +8,8 @@
 #include "effects/WaveDistortionEffect.hpp"
 #include "effects/ScreenShakeEffect.hpp"
 #include "effects/BlurEffect.hpp"
+#include "effects/ReverseEffect.hpp"
+#include "effects/SplitEffect.hpp"
 #include "Malus.hpp"
 
 int main() {
@@ -36,29 +38,28 @@ int main() {
     renderTex.create(800, 600);
 
     EffectChain chain;
-    auto gptr = std::make_unique<GrayscaleEffect>(20.0f, "grayscale");
-    auto wptr = std::make_unique<WaveDistortionEffect>(8.f, 0.06f, 2.f, "wave");
-    auto sptr = std::make_unique<ScreenShakeEffect>(24.f, 8.f, 2.f, "shake");
-    auto bptr = std::make_unique<BlurEffect>(4.0f, "blur");
-    gptr->setEnabled(false);
-    wptr->setEnabled(false);
-    sptr->setEnabled(false);
-    bptr->setEnabled(false);
-    chain.addEffect(std::move(gptr));
-    chain.addEffect(std::move(wptr));
-    chain.addEffect(std::move(sptr));
-    chain.addEffect(std::move(bptr));
+    chain.addEffect(Malus::Blur, std::make_unique<BlurEffect>(4.0f, "blur"));
+    chain.addEffect(Malus::Grayscale, std::make_unique<GrayscaleEffect>(20.0f, "grayscale"));
+    chain.addEffect(Malus::Wave, std::make_unique<WaveDistortionEffect>(8.f, 0.06f, 2.f, "wave"));
+    chain.addEffect(Malus::Shake, std::make_unique<ScreenShakeEffect>(24.f, 8.f, 2.f, "shake"));
+    chain.addEffect(Malus::Reverse, std::make_unique<ReverseEffect>("reverse"));
+    chain.addEffect(Malus::Split, std::make_unique<SplitEffect>("split"));
+    chain.setAllDisabled();
 
     Malus malus;
-    malus.setHandler(Malus::Alcohol, [&chain]() { chain.setEnabled("blur", true); });
-    malus.setHandler(Malus::Noise, [&chain]() { chain.setEnabled("grayscale", true); });
-    malus.setHandler(Malus::Smell, [&chain]() { chain.setEnabled("wave", true); });
-    malus.setHandler(Malus::Shake, [&chain]() { chain.setEnabled("shake", true); });
+    malus.setHandler(Malus::Blur, [&chain]() { chain.setEnabled(Malus::Blur, true); });
+    malus.setHandler(Malus::Grayscale, [&chain]() { chain.setEnabled(Malus::Grayscale, true); });
+    malus.setHandler(Malus::Wave, [&chain]() { chain.setEnabled(Malus::Wave, true); });
+    malus.setHandler(Malus::Shake, [&chain]() { chain.setEnabled(Malus::Shake, true); });
+    malus.setHandler(Malus::Reverse, [&chain]() { chain.setEnabled(Malus::Reverse, true); });
+    malus.setHandler(Malus::Split, [&chain]() { chain.setEnabled(Malus::Split, true); });
 
-    malus.add(Malus::Alcohol, 2);
-    malus.add(Malus::Noise, 3);
-    malus.add(Malus::Smell, 1);
+    malus.add(Malus::Blur, 2);
+    malus.add(Malus::Grayscale, 3);
+    malus.add(Malus::Wave, 1);
     malus.add(Malus::Shake, 4);
+    malus.add(Malus::Reverse, 2);
+    malus.add(Malus::Split, 2);
 
     sf::Clock clock;
     bool malusTriggered = false;
@@ -73,10 +74,7 @@ int main() {
                     malusTriggered = true;
                 }
                 if (ev.key.code == sf::Keyboard::R) {
-                    chain.setEnabled("blur", false);
-                    chain.setEnabled("grayscale", false);
-                    chain.setEnabled("wave", false);
-                    chain.setEnabled("shake", false);
+                    chain.setAllDisabled();
                     malusTriggered = false;
                 }
             }
