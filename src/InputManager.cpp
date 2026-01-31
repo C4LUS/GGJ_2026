@@ -3,15 +3,19 @@
 InputManager::InputManager() {
   // --- Default Bindings ---
 
-  // Driving Controls (Arrows + WASD)
+  // Driving Controls (Arrows + WASD/ZQSD for Azerty compatibility)
   bindKey(sf::Keyboard::Left, GameID::Action::SteerLeft);
   bindKey(sf::Keyboard::Q, GameID::Action::SteerLeft);
+  bindKey(sf::Keyboard::A,
+          GameID::Action::SteerLeft); // Added 'A' for QWERTY fallback
 
   bindKey(sf::Keyboard::Right, GameID::Action::SteerRight);
   bindKey(sf::Keyboard::D, GameID::Action::SteerRight);
 
   bindKey(sf::Keyboard::Up, GameID::Action::Accelerate);
   bindKey(sf::Keyboard::Z, GameID::Action::Accelerate);
+  bindKey(sf::Keyboard::W,
+          GameID::Action::Accelerate); // Added 'W' for QWERTY fallback
 
   bindKey(sf::Keyboard::Down, GameID::Action::Brake);
   bindKey(sf::Keyboard::S, GameID::Action::Brake);
