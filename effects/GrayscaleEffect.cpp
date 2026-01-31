@@ -1,4 +1,4 @@
-#include "GrayscaleEffect_fixed.hpp"
+#include "GrayscaleEffect.hpp"
 
 void GrayscaleEffect::apply(const sf::Image& src, sf::Image& dst, float /*time*/) {
     sf::Vector2u s = src.getSize();

@@ -3,7 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include "FrameEffect.hpp"
-#include "GrayscaleEffect_fixed.hpp"
+#include "GrayscaleEffect.hpp"
 #include "WaveDistortionEffect.hpp"
 
 int main() {
