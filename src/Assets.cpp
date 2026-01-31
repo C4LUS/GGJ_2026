@@ -8,8 +8,8 @@ Assets::Assets() {
 
     // --- 1. TEXTURES ---
     // Associe l'Enum (GameId) -> au Fichier sur le disque
-    loadTexture(GameID::Texture::PlayerCar,      "assets/peti_guy.png");
-    loadTexture(GameID::Texture::Background,     "assets/proto_perso.png");
+    loadTexture(GameID::Texture::PlayerCar,      "assets/Homme_pauvre_final.png");
+    loadTexture(GameID::Texture::Background,     "assets/Ville.png");
     
     // Si tu as d'autres textures dans l'enum GameId.hpp, ajoute-les ici :
     // loadTexture(GameID::Texture::TitleScreen, "assets/title.png");
