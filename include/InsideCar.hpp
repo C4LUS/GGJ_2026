@@ -1,6 +1,7 @@
 #pragma once
 #include "SharedContext.hpp"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 // The Phone Logic
 class PhoneSystem : public sf::Drawable {
@@ -8,7 +9,6 @@ public:
   PhoneSystem(const TextureHolder &textures);
 
   void update(sf::Time dt);
-  void triggerCall(int difficultyLevel);
 
   // choose mask after call
   bool handleEvent(const sf::Event &event, const sf::RenderWindow &window);
@@ -19,6 +19,7 @@ public:
 private:
   enum State { Idle, Ringing, Talking, Finished };
   State mState;
+  GameID::Mask requiredMak;
   sf::Sprite mSprite;
   sf::Text mSubtitleText;
 };
