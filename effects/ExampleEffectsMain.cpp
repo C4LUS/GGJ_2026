@@ -8,6 +8,19 @@
 #include "ScreenShakeEffect.hpp"
 
 int main() {
+        // Load voiture.png as background
+    sf::Texture bgTexture;
+    if (!bgTexture.loadFromFile("voiture.png")) {
+        std::cerr << "Failed to load voiture.png" << std::endl;
+        return 1;
+    }
+    sf::Sprite bgSprite(bgTexture);
+    // Scale background to fit window size (800x600)
+    sf::Vector2u texSize = bgTexture.getSize();
+    float scaleX = 800.f / texSize.x;
+    float scaleY = 600.f / texSize.y;
+    bgSprite.setScale(scaleX, scaleY);
+    
     sf::RenderWindow window({800, 600}, "Frame Effects Example");
     window.setFramerateLimit(60);
 
@@ -27,7 +40,7 @@ int main() {
     EffectChain chain;
     auto gptr = std::make_unique<GrayscaleEffect>(20.0f, "grayscale");
     auto wptr = std::make_unique<WaveDistortionEffect>(8.f, 0.06f, 2.f, "wave");
-    auto sptr = std::make_unique<ScreenShakeEffect>(12.f, 8.f, 2.f, "shake");
+    auto sptr = std::make_unique<ScreenShakeEffect>(24.f, 8.f, 2.f, "shake");
     // start disabled/enabled according to desired defaults
     gptr->setEnabled(false);
     wptr->setEnabled(true);
@@ -81,6 +94,7 @@ int main() {
 
         // Render scene to texture
         renderTex.clear(sf::Color::Black);
+        renderTex.draw(bgSprite);
         renderTex.draw(circle);
         renderTex.draw(rect);
         renderTex.display();
