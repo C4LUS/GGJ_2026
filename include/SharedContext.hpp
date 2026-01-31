@@ -4,13 +4,6 @@
 #include <memory>
 #include <vector>
 
-namespace GameID {
-enum class Texture { PlayerCar, Traffic, Background, Dashboard, Phone, Masks };
-enum class Sound { PhoneRing, Crash, Engine };
-enum class Malus { None, Drunk, SmellyPassenger, Fog, Slippery };
-enum class Mask { None, GasMask, AntiDrunk, Sunglasses };
-} // namespace GameID
-
 // Current run data
 struct SessionData {
   int currentDay = 1;
@@ -20,10 +13,10 @@ struct SessionData {
   std::vector<GameID::Malus> activeMaluses;
 
   // Current equiped mask
-  GameID::Mask currentMask = GameID::Mask::None;
+  GameID::Malus currentMalus = GameID::Malus::None;
 
   // Required mask to be protected
-  GameID::Mask requiredMaskForNextRun = GameID::Mask::None;
+  GameID::Malus requiredMalusForNextRun = GameID::Malus::None;
 };
 
 // Template to manage ressources: sound, texture, font etc
