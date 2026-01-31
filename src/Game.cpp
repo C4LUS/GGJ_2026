@@ -1,16 +1,18 @@
 #include "../include/Game.hpp"
-#include <iostream>
+#include "../include/InsideCarState.hpp"
+#include "../include/MenuState.hpp"
 
 const sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game()
-    : mWindow(sf::VideoMode(1280, 720), "RaMask moi", sf::Style::Close),
+    : mWindow(sf::VideoMode(1280, 720), "Masked Delivery (Stack Test)",
+              sf::Style::Close),
       mTextures(), mFonts(), mInputManager(), mSession(),
       mStateStack({&mWindow, &mTextures, &mFonts, &mInputManager, &mSession}) {
   mWindow.setKeyRepeatEnabled(false);
   registerStates();
 
-  // Start with the Menu
+  // Start at Menu
   mStateStack.pushState(GameID::State::Menu);
 }
 
@@ -53,8 +55,6 @@ void Game::render() {
 }
 
 void Game::registerStates() {
-  // Include specific State headers here
-  // mStateStack.registerState<MenuState>(GameID::State::Menu);
-  // mStateStack.registerState<InsideCarState>(GameID::State::InsideCar);
-  // mStateStack.registerState<DrivingState>(GameID::State::Driving);
+  mStateStack.registerState<MenuState>(GameID::State::Menu);
+  mStateStack.registerState<InsideCarState>(GameID::State::InsideCar);
 }
