@@ -17,9 +17,13 @@ void ScreenShakeEffect::apply(const sf::Image& src, sf::Image& dst, float time) 
 
     float t = time * speed;
     // Gentle sway (pivot) around the center, plus mild random shake
-    float sway = std::sin(t * (frequency * 0.5f)) * amplitude * 0.7f; // more pivot
-    float impactShake = dist(rng) * amplitude * 0.08f; // much less random shake
-    float totalShake = sway + impactShake;
+    // Smoother, less aggressive shake: lower amplitude, lower random, more sine
+    float sway = std::sin(t * (frequency * 0.35f)) * amplitude * 0.5f;
+    // Use a very small, smoothed random offset
+    static float lastRand = 0.f;
+    float targetRand = dist(rng) * amplitude * 0.02f;
+    lastRand = lastRand * 0.9f + targetRand * 0.1f; // smooth the random
+    float totalShake = sway + lastRand;
 
     // Add a balancing effect: rows above and below the center move in opposite directions
     float centerY = (s.y - 1) / 2.0f;
@@ -28,8 +32,8 @@ void ScreenShakeEffect::apply(const sf::Image& src, sf::Image& dst, float time) 
         // Clamp rel to [-1, 1] to avoid any floating point issues
         if (rel < -1.f) rel = -1.f;
         if (rel > 1.f) rel = 1.f;
-        float balance = -rel * sway * 1.2f; // stronger pivot
-        float shake = totalShake + balance + dist(rng) * amplitude * 0.02f; // less row jitter
+        float balance = -rel * sway * 1.0f; // slightly less pivot
+        float shake = totalShake + balance;
         for (unsigned x = 0; x < s.x; ++x) {
             int sampleX = static_cast<int>(std::round(x + shake));
             unsigned sx = clampu(sampleX, s.x);
