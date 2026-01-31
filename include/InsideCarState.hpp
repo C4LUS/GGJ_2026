@@ -12,8 +12,8 @@ public:
   virtual bool handleEvent(const sf::Event &event) override;
 
 private:
-  sf::RectangleShape mBackground;
   sf::Text mInfoText;
+  sf::Sprite mBackgroundSprite;
 
   // Components
   PhoneSystem mPhoneSystem;
