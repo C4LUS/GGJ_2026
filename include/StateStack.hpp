@@ -40,8 +40,7 @@ private:
   std::vector<PendingChange> mPendingList;
   Context mContext;
 
-  // Factory map: Knows how to create a "MenuState" when you ask for
-  // "State::Menu"
+  // Factory map: Knows how to create a "MenuState" when "State::Menu"
   std::map<GameID::State, std::function<State::Ptr()>> mFactories;
 };
 

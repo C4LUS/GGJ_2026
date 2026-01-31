@@ -1,10 +1,10 @@
 #pragma once
 #include "GameId.hpp"
-#include "SharedContext.hpp" // Contains the 'Context' struct defined previously
+#include "SharedContext.hpp"
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-class StateStack; // Forward declaration
+class StateStack;
 
 class State {
 public:

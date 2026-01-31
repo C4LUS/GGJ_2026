@@ -39,6 +39,15 @@ enum class Font {
   Digital // dashboard clock/speedometer
 };
 
+enum class Malus {
+  Alcool,
+  Stinky,
+  Headset,
+  Coke,
+  Fat,
+  None,
+};
+
 enum class Sound {
   PhoneRing,
   PhoneVoice_Drunk,

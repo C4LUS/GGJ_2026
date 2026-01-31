@@ -1,4 +1,5 @@
 #pragma once
+#include "GameId.hpp"
 #include "SharedContext.hpp"
 #include <SFML/Graphics.hpp>
 
