@@ -15,11 +15,17 @@ public:
 
   // get the usefull mask
   GameID::Malus getRequiredMask() const;
+  bool isWaitingForMask() const;
+  bool isCallFinished() const;
+  void reset();
 
 private:
+  void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
   enum State { Idle, Ringing, Talking, Finished };
   State mState;
-  GameID::Mask requiredMak;
+  GameID::Malus mRequiredMask;
+  sf::Time time;
   sf::Sprite mSprite;
   sf::Text mSubtitleText;
 };
@@ -31,6 +37,7 @@ public:
 
   void handleEvent(const sf::Event &event);
   GameID::Malus getSelectedMask() const;
+  void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 private:
   struct Button {
