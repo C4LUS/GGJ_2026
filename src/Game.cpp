@@ -1,4 +1,5 @@
 #include "../include/Game.hpp"
+#include "../include/DrivingState.hpp"
 #include <iostream>
 #include <optional>
 
@@ -26,6 +27,10 @@ public:
     if (const auto *keyPressed = event.getIf<sf::Event::KeyPressed>()) {
       if (keyPressed->code == sf::Keyboard::Key::Escape) {
         requestStackPop();
+      }
+      if (keyPressed->code == sf::Keyboard::Key::Enter) {
+        requestStackPop();
+        requestStackPush(GameID::State::Driving);
       }
     }
     return true;
@@ -91,5 +96,5 @@ void Game::registerStates() {
   // Include specific State headers here
   mStateStack.registerState<TestState>(GameID::State::Menu);
   // mStateStack.registerState<InsideCarState>(GameID::State::InsideCar);
-  // mStateStack.registerState<DrivingState>(GameID::State::Driving);
+  mStateStack.registerState<DrivingState>(GameID::State::Driving);
 }

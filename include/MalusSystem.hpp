@@ -1,6 +1,8 @@
 #pragma once
 #include "SharedContext.hpp"
 #include <SFML/Graphics.hpp>
+#include <memory>
+#include <vector>
 
 struct Command; // struct for command move right left etc
 

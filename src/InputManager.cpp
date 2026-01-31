@@ -1,6 +1,11 @@
 #include "../include/InputManager.hpp"
 
-InputManager::InputManager() = default;
+InputManager::InputManager() {
+  bindKey(sf::Keyboard::Key::Left, GameID::Action::SteerLeft);
+  bindKey(sf::Keyboard::Key::Right, GameID::Action::SteerRight);
+  bindKey(sf::Keyboard::Key::Up, GameID::Action::Accelerate);
+  bindKey(sf::Keyboard::Key::Down, GameID::Action::Brake);
+}
 
 void InputManager::bindKey(sf::Keyboard::Key key, GameID::Action action) {
   mKeyBinding.insert(std::make_pair(action, key));

@@ -1,10 +1,16 @@
 #pragma once
 #include "Entities.hpp"
 #include "MalusSystem.hpp" // Needs this to apply effects
+#include <array>
+#include <vector>
 
-class World : private sf::NonCopyable {
+class World {
 public:
   explicit World(Context context); // loadfrom context
+  World(const World &) = delete;
+  World &operator=(const World &) = delete;
+  World(World &&) = delete;
+  World &operator=(World &&) = delete;
 
   void update(sf::Time dt);
   void draw();
@@ -25,6 +31,7 @@ private:
 
   PlayerCar *mPlayer;         // player
   MalusManager mMalusManager; // maluses
+  std::vector<TrafficCar *> mTrafficCars;
 
   sf::FloatRect mWorldBounds; // limit bow of movement
   float mScrollSpeed;         // speed of thee game

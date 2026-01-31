@@ -1,7 +1,10 @@
 #pragma once
 #include "InputManager.hpp"
 #include <SFML/Graphics.hpp>
+#include <map>
 #include <memory>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 // Current run data
@@ -21,11 +24,13 @@ struct SessionData {
 
 // Template to manage ressources: sound, texture, font etc
 template <typename Resource, typename Identifier> class ResourceHolder {
-  // to add: map<Identifier, unique_ptr<Resource>>
 public:
   void load(Identifier id, const std::string &filename);
   Resource &get(Identifier id);
   const Resource &get(Identifier id) const;
+
+private:
+  std::map<Identifier, std::unique_ptr<Resource>> mResourceMap;
 };
 
 typedef ResourceHolder<sf::Texture, GameID::Texture> TextureHolder;
@@ -39,3 +44,35 @@ struct Context {
   InputManager *input;
   SessionData *session;
 };
+
+template <typename Resource, typename Identifier>
+void ResourceHolder<Resource, Identifier>::load(Identifier id,
+                                                const std::string &filename) {
+  auto resource = std::make_unique<Resource>();
+  if (!resource->loadFromFile(filename)) {
+    throw std::runtime_error("ResourceHolder: failed to load " + filename);
+  }
+
+  auto inserted = mResourceMap.emplace(id, std::move(resource));
+  if (!inserted.second) {
+    throw std::runtime_error("ResourceHolder: duplicate resource id");
+  }
+}
+
+template <typename Resource, typename Identifier>
+Resource &ResourceHolder<Resource, Identifier>::get(Identifier id) {
+  auto found = mResourceMap.find(id);
+  if (found == mResourceMap.end()) {
+    throw std::runtime_error("ResourceHolder: resource id not found");
+  }
+  return *found->second;
+}
+
+template <typename Resource, typename Identifier>
+const Resource &ResourceHolder<Resource, Identifier>::get(Identifier id) const {
+  auto found = mResourceMap.find(id);
+  if (found == mResourceMap.end()) {
+    throw std::runtime_error("ResourceHolder: resource id not found");
+  }
+  return *found->second;
+}
