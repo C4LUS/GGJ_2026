@@ -1,9 +1,9 @@
-Project: Masked Delivery (Game Jam)
+# Project: Masked Delivery (Game Jam)
 🎮 Game Overview & Mechanics
 This game is a Session-Based Hybrid mixing a Static Puzzle phase with an Action Runner phase. The core theme is "Masks," used as protection against gameplay modifiers (Maluses).
 
-The Loop
-Inside Car (Office Phase):
+## The Loop
+### Inside Car (Office Phase):
 
 The Hook: The phone rings. A client calls for a delivery or a passenger wants a ride.
 
@@ -13,7 +13,7 @@ The Choice: Select the correct Mask from the dashboard (e.g., Anti-Alcohol Mask)
 
 Transition: You start the engine.
 
-Driving (Runner Phase):
+### Driving (Runner Phase):
 
 The Action: Vertical scroller. Avoid traffic and obstacles.
 
@@ -31,10 +31,10 @@ Survival (Score accumulated).
 
 Crash (Game Over).
 
-📂 Architecture: The include/ Directory
+## 📂 Architecture: The include/ Directory
 The architecture relies on a State Machine for flow control and a Shared Context for data persistence.
 
-1. Core Infrastructure
+### 1. Core Infrastructure
 Files that keep the engine running.
 
 Game.hpp
@@ -61,7 +61,7 @@ Role: The Translator. It converts raw hardware signals (Key 'A', Joystick Button
 
 Why: Allows us to rebind keys easily without breaking game code.
 
-2. State System (Game Flow)
+### 2. State System (Game Flow)
 Files that manage the distinct screens of the game.
 
 StateStack.hpp
@@ -84,7 +84,7 @@ PhoneSystem: Logic for the ringing phone, randomizing callers, and voice hints.
 
 MaskSelector: UI logic for clicking masks on the dashboard.
 
-3. Gameplay & Physics (Driving Phase)
+### 3. Gameplay & Physics (Driving Phase)
 Files dedicated to the "Runner" portion of the game.
 
 World.hpp
@@ -117,15 +117,15 @@ Malus (Base Class): Defines how a punishment works (modifyInput, applyScreenEffe
 
 Example: DrunkMalus overrides modifyInput to flip Left/Right.
 
-4. Utilities
+### 4. Utilities
 Helper files.
 
 GUI.hpp
 
 Role: Provides a standard Button class. Used in the Main Menu and the Mask Selector. Handles mouse hover/click states internally.
 
-🛠 How to Add Content (Quick Guide)
-1. How to add a new Malus (e.g., "Slippery Road")
+## 🛠 How to Add Content (Quick Guide)
+### 1. How to add a new Malus (e.g., "Slippery Road")
 Go to GameId.hpp and add Slippery to GameID::Malus.
 
 Go to MalusSystem.hpp (or a specific cpp file).
@@ -136,14 +136,14 @@ Override getSpeedMultiplier() or modifyInput() to make steering harder.
 
 Register it in MalusManager::loadFromSession.
 
-2. How to add a new Asset (Texture/Sound)
+### 2. How to add a new Asset (Texture/Sound)
 Go to GameId.hpp and add the ID (e.g., Texture::Radio).
 
 In Game.cpp (constructor), call mTextures.load(Texture::Radio, "assets/radio.png");.
 
 Access it anywhere via context.textures->get(Texture::Radio).
 
-3. How to create a new Screen (State)
+### 3. How to create a new Screen (State)
 Add ID to GameId.hpp (State::GameOver).
 
 Create GameOverState.hpp inheriting from State.
