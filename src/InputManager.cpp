@@ -4,24 +4,24 @@ InputManager::InputManager() {
   // --- Default Bindings ---
 
   // Driving Controls (Arrows + WASD)
-  bindKey(sf::Keyboard::Left, GameID::Action::SteerLeft);
-  bindKey(sf::Keyboard::Q, GameID::Action::SteerLeft);
+  bindKey(sf::Keyboard::Key::Left, GameID::Action::SteerLeft);
+  bindKey(sf::Keyboard::Key::Q, GameID::Action::SteerLeft);
 
-  bindKey(sf::Keyboard::Right, GameID::Action::SteerRight);
-  bindKey(sf::Keyboard::D, GameID::Action::SteerRight);
+  bindKey(sf::Keyboard::Key::Right, GameID::Action::SteerRight);
+  bindKey(sf::Keyboard::Key::D, GameID::Action::SteerRight);
 
-  bindKey(sf::Keyboard::Up, GameID::Action::Accelerate);
-  bindKey(sf::Keyboard::Z, GameID::Action::Accelerate);
+  bindKey(sf::Keyboard::Key::Up, GameID::Action::Accelerate);
+  bindKey(sf::Keyboard::Key::Z, GameID::Action::Accelerate);
 
-  bindKey(sf::Keyboard::Down, GameID::Action::Brake);
-  bindKey(sf::Keyboard::S, GameID::Action::Brake);
+  bindKey(sf::Keyboard::Key::Down, GameID::Action::Brake);
+  bindKey(sf::Keyboard::Key::S, GameID::Action::Brake);
 
   // Menu / UI Controls
-  bindKey(sf::Keyboard::Enter, GameID::Action::Confirm);
-  bindMouse(sf::Mouse::Left, GameID::Action::Confirm);
+  bindKey(sf::Keyboard::Key::Enter, GameID::Action::Confirm);
+  bindMouse(sf::Mouse::Button::Left, GameID::Action::Confirm);
 
-  bindKey(sf::Keyboard::Escape, GameID::Action::Pause);
-  bindKey(sf::Keyboard::P, GameID::Action::Pause);
+  bindKey(sf::Keyboard::Key::Escape, GameID::Action::Pause);
+  bindKey(sf::Keyboard::Key::P, GameID::Action::Pause);
 }
 
 void InputManager::bindKey(sf::Keyboard::Key key, GameID::Action action) {
@@ -53,19 +53,20 @@ bool InputManager::isActionActive(GameID::Action action) const {
 bool InputManager::isActionTriggered(GameID::Action action,
                                      const sf::Event &event) const {
   // 1. Check Keyboard Events
-  if (event.type == sf::Event::KeyPressed) {
+  if (const auto *keyPressed = event.getIf<sf::Event::KeyPressed>()) {
     auto range = mKeyBinding.equal_range(action);
     for (auto it = range.first; it != range.second; ++it) {
-      if (event.key.code == it->second)
+      if (keyPressed->code == it->second)
         return true;
     }
   }
 
   // 2. Check Mouse Events
-  if (event.type == sf::Event::MouseButtonPressed) {
+  if (const auto *mousePressed =
+          event.getIf<sf::Event::MouseButtonPressed>()) {
     auto range = mMouseBinding.equal_range(action);
     for (auto it = range.first; it != range.second; ++it) {
-      if (event.mouseButton.button == it->second)
+      if (mousePressed->button == it->second)
         return true;
     }
   }

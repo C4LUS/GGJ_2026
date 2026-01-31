@@ -1,11 +1,12 @@
 #include "../include/Game.hpp"
 #include "../include/InsideCarState.hpp"
 #include "../include/MenuState.hpp"
+#include <optional>
 
 const sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game()
-    : mWindow(sf::VideoMode(1280, 720), "Masked Delivery (Stack Test)",
+    : mWindow(sf::VideoMode({1280u, 720u}), "Masked Delivery (Stack Test)",
               sf::Style::Close),
       mTextures(), mFonts(), mInputManager(), mSession(),
       mStateStack({&mWindow, &mTextures, &mFonts, &mInputManager, &mSession}) {
@@ -37,12 +38,12 @@ void Game::run() {
 }
 
 void Game::processInput() {
-  sf::Event event;
-  while (mWindow.pollEvent(event)) {
-    if (event.type == sf::Event::Closed)
+  while (const std::optional event = mWindow.pollEvent()) {
+    if (event->is<sf::Event::Closed>()) {
       mWindow.close();
+    }
 
-    mStateStack.handleEvent(event);
+    mStateStack.handleEvent(*event);
   }
 }
 

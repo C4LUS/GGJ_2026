@@ -6,11 +6,15 @@
 #include <map>
 #include <vector>
 
-class StateStack : private sf::NonCopyable {
+class StateStack {
 public:
   enum class Action { Push, Pop, Clear };
 
   explicit StateStack(Context context);
+  StateStack(const StateStack &) = delete;
+  StateStack &operator=(const StateStack &) = delete;
+  StateStack(StateStack &&) = delete;
+  StateStack &operator=(StateStack &&) = delete;
 
   template <typename T> void registerState(GameID::State stateID);
 
