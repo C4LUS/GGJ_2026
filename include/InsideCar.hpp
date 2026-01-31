@@ -14,7 +14,7 @@ public:
   bool handleEvent(const sf::Event &event, const sf::RenderWindow &window);
 
   // get the usefull mask
-  GameID::Mask getRequiredMask() const;
+  GameID::Malus getRequiredMask() const;
 
 private:
   enum State { Idle, Ringing, Talking, Finished };
@@ -30,12 +30,12 @@ public:
   MaskSelector(Context context);
 
   void handleEvent(const sf::Event &event);
-  GameID::Mask getSelectedMask() const;
+  GameID::Malus getSelectedMask() const;
 
 private:
   struct Button {
     sf::Sprite sprite;
-    GameID::Mask maskID;
+    GameID::Malus maskID;
     bool isSelected;
   };
   std::vector<Button> mButtons;
