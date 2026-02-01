@@ -21,6 +21,12 @@ public:
   // Helper to get mouse position relative to a window
   sf::Vector2i getMousePosition(const sf::RenderWindow &window) const;
 
+  // Binding accessors for effects
+  const std::multimap<GameID::Action, sf::Keyboard::Key> &getKeyBindings() const;
+  const std::multimap<GameID::Action, sf::Mouse::Button> &getMouseBindings() const;
+  void setKeyBindings(const std::multimap<GameID::Action, sf::Keyboard::Key> &bindings);
+  void setMouseBindings(const std::multimap<GameID::Action, sf::Mouse::Button> &bindings);
+
 private:
   std::multimap<GameID::Action, sf::Keyboard::Key> mKeyBinding;
   std::multimap<GameID::Action, sf::Mouse::Button> mMouseBinding;

@@ -49,8 +49,52 @@ void World::update(sf::Time dt) {
 
 void World::draw() {
   mWindow.setView(mWorldView);
-  mWindow.draw(mRoadRect);
-  mWindow.draw(*mPlayerCar);
+  // Render scene to image for post-processing
+  sf::RenderTexture renderTex;
+  renderTex.create(static_cast<unsigned int>(mWorldView.getSize().x), static_cast<unsigned int>(mWorldView.getSize().y));
+  renderTex.clear();
+  renderTex.draw(mRoadRect);
+  renderTex.draw(*mPlayerCar);
+  renderTex.display();
+
+  // Apply effect chain if available
+  sf::Image sceneImage = renderTex.getTexture().copyToImage();
+  sf::Image processedImage;
+  if (mContext.session) {
+    float t = mEffectClock.getElapsedTime().asSeconds();
+    mContext.session->effectChain.apply(sceneImage, processedImage, t);
+  } else {
+    processedImage = sceneImage;
+  }
+
+  // Draw processed image to window
+  sf::Texture finalTex;
+  finalTex.loadFromImage(processedImage);
+  sf::Sprite finalSprite(finalTex);
+  mWindow.draw(finalSprite);
+
+  // Debug overlay: list enabled effects
+  if (mContext.session && mContext.assets) {
+    auto names = mContext.session->effectChain.getEnabledNames();
+    sf::Text text;
+    text.setFont(mContext.assets->get(GameID::Font::Main));
+    text.setCharacterSize(20);
+    text.setFillColor(sf::Color::White);
+    text.setOutlineColor(sf::Color::Black);
+    text.setOutlineThickness(2.f);
+    if (names.empty()) {
+      text.setString("Effects: none");
+    } else {
+      std::string line = "Effects: ";
+      for (size_t i = 0; i < names.size(); ++i) {
+        line += names[i];
+        if (i + 1 < names.size()) line += ", ";
+      }
+      text.setString(line);
+    }
+    text.setPosition(16.f, 16.f);
+    mWindow.draw(text);
+  }
 }
 
 bool World::hasCrashed() const {

@@ -38,6 +38,9 @@ private:
   // We use unique_ptr to manage memory automatically
   std::unique_ptr<PlayerCar> mPlayerCar;
 
+  // Effect timing
+  sf::Clock mEffectClock;
+
   // The Road is visually just a rectangle in Jonas's code
   sf::RectangleShape mRoadRect;
   std::tuple<sf::Vector2f, sf::Vector2f> mRoadBorders; // Left/Right limits

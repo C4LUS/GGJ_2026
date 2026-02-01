@@ -3,7 +3,7 @@ CXX         = g++
 CXXFLAGS    = -std=c++17 -Wall -Wextra -g -I. -Iinclude
 LDFLAGS     = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
-SRCS        = $(wildcard *.cpp) $(wildcard src/*.cpp)
+SRCS        = $(wildcard src/*.cpp)
 OBJS        = $(SRCS:.cpp=.o)
 
 all: $(NAME)

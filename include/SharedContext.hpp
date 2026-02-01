@@ -1,7 +1,9 @@
 #pragma once
 #include "Assets.hpp"
 #include "GameId.hpp" // <--- Include Enums from here
+#include "FrameEffect.hpp" // For EffectChain
 #include "InputManager.hpp"
+#include "MalusGiver.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -10,9 +12,11 @@ struct SessionData {
   int currentDay = 1;
   float cash = 0.0f;
 
-  // The Maluses currently active on the player (e.g., {Malus::Alcool,
-  // Malus::Fat})
-  std::vector<GameID::Malus> activeMaluses;
+  // The active effects chain for rendering malus effects
+  EffectChain effectChain;
+
+  // Centralized malus giver (configured in Game constructor)
+  MalusGiver malusGiver;
 
   // The Mask currently equipped (This is of type Malus because it protects
   // against that specific Malus) Logic: If activeMaluses contains

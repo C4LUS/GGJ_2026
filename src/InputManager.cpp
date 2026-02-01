@@ -81,3 +81,23 @@ sf::Vector2i
 InputManager::getMousePosition(const sf::RenderWindow &window) const {
   return sf::Mouse::getPosition(window);
 }
+
+const std::multimap<GameID::Action, sf::Keyboard::Key> &
+InputManager::getKeyBindings() const {
+  return mKeyBinding;
+}
+
+const std::multimap<GameID::Action, sf::Mouse::Button> &
+InputManager::getMouseBindings() const {
+  return mMouseBinding;
+}
+
+void InputManager::setKeyBindings(
+    const std::multimap<GameID::Action, sf::Keyboard::Key> &bindings) {
+  mKeyBinding = bindings;
+}
+
+void InputManager::setMouseBindings(
+    const std::multimap<GameID::Action, sf::Mouse::Button> &bindings) {
+  mMouseBinding = bindings;
+}

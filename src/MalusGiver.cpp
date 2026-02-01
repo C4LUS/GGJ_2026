@@ -1,18 +1,18 @@
-#include "Malus.hpp"
+#include "MalusGiver.hpp"
 #include <algorithm>
 #include <array>
 
-Malus::Malus() {}
+MalusGiver::MalusGiver() {}
 
-void Malus::add(Type type, int amount) {
+void MalusGiver::add(Type type, int amount) {
     counts[type] += amount;
 }
 
-void Malus::setHandler(Type type, MalusFunc func) {
+void MalusGiver::setHandler(Type type, MalusFunc func) {
     handlers[type] = func;
 }
 
-void Malus::run() {
+void MalusGiver::run() {
     if (counts.empty()) return;
     // Compute squared weights
     std::vector<Type> types;
@@ -45,6 +45,6 @@ void Malus::run() {
     }
 }
 
-void Malus::clear() {
+void MalusGiver::clear() {
     counts.clear();
 }

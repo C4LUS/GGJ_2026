@@ -3,7 +3,7 @@
 #include <map>
 #include <algorithm>
 
-class Malus {
+class MalusGiver {
 public:
     enum Type {
         Blur,
@@ -12,12 +12,13 @@ public:
         Shake,
         Reverse,
         Split,
+        MixedControls,
         Count
     };
 
     using MalusFunc = std::function<void()>;
 
-    Malus();
+    MalusGiver();
 
     void add(Type type, int amount = 1);
     void setHandler(Type type, MalusFunc func);

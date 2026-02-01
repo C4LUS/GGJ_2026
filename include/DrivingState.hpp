@@ -6,6 +6,7 @@
 class DrivingState : public State {
 public:
   DrivingState(StateStack &stack, Context context);
+  ~DrivingState() override;
 
   virtual void draw() override;
   virtual bool update(sf::Time dt) override;
@@ -13,4 +14,8 @@ public:
 
 private:
   World mWorld; // <--- The Physics Engine
+  bool mEffectsEnabled{false};
+
+  void enableEffectChain();
+  void disableEffectChain();
 };

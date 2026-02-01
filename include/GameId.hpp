@@ -24,7 +24,10 @@ enum class Malus {
   Stinky,  // Smelly Passenger / Gas Mask
   Headset, // Muffled Sound / Headphones?
   Coke,    // Jitter Speed / Chill Glasses?
-  Fat      // Heavy Physics / ?
+  Fat,     // Heavy Physics / ?
+  Split,   // Screen split effect
+  Reverse, // Reverse screen effect
+  MixedControls // Randomized controls
 };
 
 // --- ASSETS ---
