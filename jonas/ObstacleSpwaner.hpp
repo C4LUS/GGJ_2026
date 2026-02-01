@@ -38,7 +38,7 @@ class ObstacleSpawner
 
         void pushObstacle()
         {
-            int type = rand() % 4;
+            int type = rand() % 8;
 
             if (type == WOOD)
                 this->_obstacle_vector.push_back(this->_obstacle_factory.CreateObstacle(WOOD));

@@ -2,15 +2,15 @@
 
 #include "AObstacle.hpp"
 
-class ObstacleCustomizable : public AObstacle
+class ObstacleBus : public AObstacle
 {
     public:
-        ObstacleCustomizable(sf::Vector2f pos, sf::Vector2f size)
+        ObstacleBus(sf::Vector2f pos, sf::Vector2f size)
         {
             this->_alive = true;
             this->_pos = pos;
             this->_size = size;
-            this->_type = CUSTOMIZABLE;
+            this->_type = BIKE;
             this->_attack = 10;
             this->_displayable = false;
             this->_hitbox = std::make_tuple(pos - (size / 2.f), pos + (size / 2.f));
