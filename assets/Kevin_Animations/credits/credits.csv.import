@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dc5w0qf5vp6gm"
+
+[deps]
+
+files=["res://assets/Kevin_Animations/credits/credits.notes.translation", "res://assets/Kevin_Animations/credits/credits.authors.translation", "res://assets/Kevin_Animations/credits/credits.licenses.translation", "res://assets/Kevin_Animations/credits/credits.urls.translation"]
+
+source_file="res://assets/Kevin_Animations/credits/credits.csv"
+dest_files=["res://assets/Kevin_Animations/credits/credits.notes.translation", "res://assets/Kevin_Animations/credits/credits.authors.translation", "res://assets/Kevin_Animations/credits/credits.licenses.translation", "res://assets/Kevin_Animations/credits/credits.urls.translation"]
+
+[params]
+
+compress=true
+delimiter=0
